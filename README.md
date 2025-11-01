@@ -1,8 +1,14 @@
-# Layout 
+# Live
 
-figma: (https://www.figma.com/file/yotdhAHetNQZy1tOi1UTPk/Kanban?node-id=0%3A1)
- 
-# Запуск и документация проекта
+https://SanyBlagorodny.github.io/SF-Kanban-board/
+
+# Layout
+
+Figma: https://www.figma.com/file/yotdhAHetNQZy1tOi1UTPk/Kanban?node-id=0%3A1
+
+# О проекте
+
+Канбан‑доска на React (CRA). Поддерживает выбор языка при первом входе (RU/EN), авторизацию с локальной регистрацией (localStorage), просмотр/редактирование задач, адаптивный интерфейс.
 
 Проект создан на основе [Create React App](https://github.com/facebook/create-react-app).
 
@@ -37,6 +43,8 @@ npm start
 
 Приложение откроется на [http://localhost:3000](http://localhost:3000). Горячая перезагрузка включена.
 
+По умолчанию используется HashRouter, поэтому маршруты имеют вид `#/...`.
+
 ## Тесты
 
 ```bash
@@ -55,14 +63,23 @@ npm run build
 
 ## Деплой на GitHub Pages
 
-В проекте настроен деплой с помощью `gh-pages`.
+В проекте настроен деплой через **GitHub Actions** (рекомендуется) и альтернативно через пакет `gh-pages`.
+
+### Вариант A. GitHub Actions (рекомендуется)
+
+1. В репозитории GitHub: Settings → Pages → Build and deployment → выбрать "GitHub Actions".
+2. Пуш в ветку `main` автоматически запускает Workflow и публикует сайт.
+
+Live: https://SanyBlagorodny.github.io/SF-Kanban-board/
+
+### Вариант B. Пакет gh-pages (альтернатива)
 
 Скрипты:
 
 - `npm run build` — сборка
 - `npm run deploy` — публикация содержимого папки `build` в ветку `gh-pages`
 
-В `package.json` задан `homepage`: ` — это адрес опубликованного приложения.
+В `package.json` задан `homepage`: `https://SanyBlagorodny.github.io/SF-Kanban-board` — адрес опубликованного приложения.
 
 ## Структура (основное)
 
