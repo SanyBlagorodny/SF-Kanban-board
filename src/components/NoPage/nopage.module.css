@@ -1,0 +1,22 @@
+.noPage {
+  background: #0079BF;
+  height: 86vh;
+}
+
+.container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.title {
+  text-transform: uppercase;
+  font-size: 72px;
+  color: #fff;
+}
+
+.title:hover {
+  color: black;
+}
