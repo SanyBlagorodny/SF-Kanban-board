@@ -1,101 +1,104 @@
-# Live
+# SF Kanban Board
 
-https://SanyBlagorodny.github.io/SF-Kanban-board/
+Live: https://SanyBlagorodny.github.io/SF-Kanban-board/
 
-# Layout
+## О проекте
+Одностраничное приложение Канбан на React с локальной аутентификацией, мультиязычностью и перетаскиванием задач (desktop + mobile). Современный стеклянный UI и анимированный WebGL‑фон.
 
-Figma: https://www.figma.com/file/yotdhAHetNQZy1tOi1UTPk/Kanban?node-id=0%3A1
+### Основные возможности
+- 4 колонки: Задачи (Backlog) → Выполнить (Ready) → В работе (In Progress) → Завершенные (Finished)
+- Добавление задач, редактирование названия/описания
+- Перетаскивание задач мышью и на мобильных (tap‑drag)
+- Мультиязычность RU/EN (экран выбора при старте, переключение сохраняется)
+- Регистрация/вход (localStorage), состояние задач хранится ПО ПОЛЬЗОВАТЕЛЯМ (`state_<login>`) 
+- Страница детали задачи с редактированием
+- Визуальная статистика в футере (активные/завершенные)
+- Стеклянная тема (glassmorphism) + фоновая анимация (DarkVeil на OGL)
 
-# О проекте
-
-Канбан‑доска на React (CRA). Поддерживает выбор языка при первом входе (RU/EN), авторизацию с локальной регистрацией (localStorage), просмотр/редактирование задач, адаптивный интерфейс.
-
-Проект создан на основе [Create React App](https://github.com/facebook/create-react-app).
+## Технологии
+- React 18 (Create React App), React Router v6 (HashRouter)
+- CSS Modules
+- OGL (WebGL) для фона
+- GitHub Pages / GitHub Actions для деплоя
 
 ## Требования
+- Node.js 16/18
+- npm 8+
 
-- Node.js 16.x или 18.x
-- npm 8+ или 9+
-
-Проверить версии:
-
+Проверка:
 ```bash
 node -v
 npm -v
 ```
 
 ## Установка
-
 ```bash
 npm install
 ```
+> В проект добавлена зависимость `ogl` для фоновой анимации.
 
-Если установка падает, попробуйте:
-
-- удалить папку `node_modules` и файл `package-lock.json`, затем снова `npm install`
-- очистить кэш: `npm cache verify`
-
-## Локальный запуск (dev)
-
+## Запуск в разработке
 ```bash
 npm start
 ```
+Откроется http://localhost:3000. Маршрутизация через HashRouter (URL вида `#/tasks`).
 
-Приложение откроется на [http://localhost:3000](http://localhost:3000). Горячая перезагрузка включена.
-
-По умолчанию используется HashRouter, поэтому маршруты имеют вид `#/...`.
-
-## Тесты
-
-```bash
-npm test
-```
-
-Интерактивный режим запуска тестов (watch).
-
-## Сборка продакшн-версии
-
+## Сборка
 ```bash
 npm run build
 ```
+Сборка в папке `build/`.
 
-Сборка появится в папке `build` и будет оптимизирована для продакшна.
+## Деплой
+Настроен деплой на GitHub Pages через GitHub Actions (рекомендуется) и скрипт `gh-pages`.
+- CI: пуш в `main` публикует сайт: https://SanyBlagorodny.github.io/SF-Kanban-board/
+- Локально: `npm run build` → `npm run deploy`
 
-## Деплой на GitHub Pages
+## Структура
+```
+src/
+  components/
+    board/         — колонки и рендер задач
+    task/          — карточка задачи
+    add/           — добавление/перенос задач (селект)
+    insideTask/    — страница детали задачи
+    header/, footer/
+    login/, register/, lang/
+    background/    — DarkVeil (WebGL‑фон)
+  i18n/            — словари RU/EN
+  App.js           — маршруты, контексты, глобальный фон
+```
 
-В проекте настроен деплой через **GitHub Actions** (рекомендуется) и альтернативно через пакет `gh-pages`.
+## Маршруты
+- `#/` — профиль (после входа)
+- `#/tasks` — доска
+- `#/tasks/task/:id` — детальная задача
+- Неизвестные пути перенаправляются на `#/`
 
-### Вариант A. GitHub Actions (рекомендуется)
+## Хранение данных
+- Пользователь: `localStorage.user`, флаг авторизации: `auth`
+- Текущий пользователь: `currentUser`
+- Доска: `state_<currentUser>` (персональные задачи)
 
-1. В репозитории GitHub: Settings → Pages → Build and deployment → выбрать "GitHub Actions".
-2. Пуш в ветку `main` автоматически запускает Workflow и публикует сайт.
+## Drag & Drop
+- Desktop: HTML5 DnD (dragover/drop) с позиционированием по указателю
+- Mobile: жест tap‑drag — при отпускании задача перемещается в колонку/позицию под пальцем
 
-Live: https://SanyBlagorodny.github.io/SF-Kanban-board/
+## Известные нюансы
+- Суперсэмплинг фона можно увеличить в `App.js` (`resolutionScale`) — это нагружает GPU
+- Если после смены пользователя видите «старые» задачи — выйдите/войдите: состояние подхватится из `state_<login>`
 
-### Вариант B. Пакет gh-pages (альтернатива)
+## Устранение неполадок
+- Порт занят — `set PORT=3001 && npm start` (PowerShell: `$env:PORT=3001; npm start`)
+- Ошибки зависимостей — удалите `node_modules` и `package-lock.json`, затем `npm install`
+- Проблемы сборки — `npm run build` и проверьте логи
 
-Скрипты:
-
-- `npm run build` — сборка
-- `npm run deploy` — публикация содержимого папки `build` в ветку `gh-pages`
-
-В `package.json` задан `homepage`: `https://SanyBlagorodny.github.io/SF-Kanban-board` — адрес опубликованного приложения.
-
-## Структура (основное)
-
-- `public/` — статические файлы
-- `src/` — исходный код приложения
-
-## Устранение неполадок запуска
-
-- «Порт 3000 занят» — завершите процессы, использующие порт, или укажите иной порт: `set PORT=3001 && npm start` (Windows PowerShell: `$env:PORT=3001; npm start`).
-- «react-scripts не найден» — переустановите зависимости: удалите `node_modules` и `package-lock.json`, затем `npm install`.
-- Конфликт версий Node — используйте LTS (16 или 18). Проверьте `node -v`.
+---
+Figma (референс): https://www.figma.com/file/yotdhAHetNQZy1tOi1UTPk/Kanban?node-id=0%3A1
 - Проблемы с правами — запустите терминал от имени администратора.
 
 Если ошибка сохраняется — запустите команду, скопируйте полный лог из консоли и приложите его к обращению.
 
 ## Полезные ссылки
-
 - CRA Docs: https://facebook.github.io/create-react-app/docs/getting-started
 - React Docs: https://react.dev/

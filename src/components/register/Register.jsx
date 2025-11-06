@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import Button from '../UI/button/Button';
 import style from '../login/login.module.css';
 import { useNavigate } from 'react-router-dom';
+import { useT } from '../../i18n';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const Register = () => {
   const navigate = useNavigate();
+  const t = useT();
   const [login, setLogin] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -24,74 +26,74 @@ const Register = () => {
     setMessage('');
 
     if (!login || !firstName || !lastName || !email || !password || !confirm) {
-      setError('Заполните все обязательные поля');
+      setError(t('mustFillAll'));
       return;
     }
     if (!agree) {
-      setError('Необходимо согласие на обработку персональных данных');
+      setError(t('mustAgree'));
       return;
     }
     if (!emailRegex.test(email)) {
-      setError('Некорректная почта');
+      setError(t('invalidEmail'));
       return;
     }
     if (password.length < 6) {
-      setError('Пароль должен быть не короче 6 символов');
+      setError(t('passwordTooShort'));
       return;
     }
     if (password !== confirm) {
-      setError('Пароли не совпадают');
+      setError(t('passwordsMismatch'));
       return;
     }
     const user = { login, firstName, lastName, email, color, password };
     localStorage.setItem('user', JSON.stringify(user));
-    setMessage('Регистрация выполнена. Перенаправляем на страницу входа...');
-    setTimeout(() => navigate('/'), 700);
+    setMessage(t('registerSuccess'));
+    setTimeout(() => navigate('/login'), 700);
   };
 
   return (
     <div className={style.login}>
       <form className={style.form} onSubmit={onRegister}>
-        <h1>Регистрация</h1>
+        <h1>{t('registerTitle')}</h1>
         <label>
-          Логин:
-          <input type='text' placeholder='Придумайте логин' className={style.input} value={login} onChange={(e) => setLogin(e.target.value)} />
+          {t('loginLabel')}
+          <input type='text' placeholder={t('loginPlaceholder')} className={style.input} value={login} onChange={(e) => setLogin(e.target.value)} />
         </label>
         <label>
-          Имя:
-          <input type='text' placeholder='Введите имя' className={style.input} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+          {t('firstName')}
+          <input type='text' placeholder='' className={style.input} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
         </label>
         <label>
-          Фамилия:
-          <input type='text' placeholder='Введите фамилию' className={style.input} value={lastName} onChange={(e) => setLastName(e.target.value)} />
+          {t('lastName')}
+          <input type='text' placeholder='' className={style.input} value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </label>
         <label>
-          Почта:
-          <input type='email' placeholder='Введите вашу почту' className={style.input} value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='off' />
+          {t('email')}
+          <input type='email' placeholder='' className={style.input} value={email} onChange={(e) => setEmail(e.target.value)} autoComplete='off' />
         </label>
         <label>
-          Любимый цвет:
-          <input type='text' placeholder='Например, фиолетовый' className={style.input} value={color} onChange={(e) => setColor(e.target.value)} />
+          {t('favColor')}
+          <input type='text' placeholder='' className={style.input} value={color} onChange={(e) => setColor(e.target.value)} />
         </label>
         <label>
-          Пароль:
-          <input type='password' placeholder='Придумайте пароль' className={style.input} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete='new-password' />
+          {t('password')}
+          <input type='password' placeholder='' className={style.input} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete='new-password' />
         </label>
         <label>
-          Повторите пароль:
-          <input type='password' placeholder='Повторите пароль' className={style.input} value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete='new-password' />
+          {t('repeatPassword')}
+          <input type='password' placeholder='' className={style.input} value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete='new-password' />
         </label>
         <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontWeight: 400 }}>
           <input type='checkbox' checked={agree} onChange={(e) => setAgree(e.target.checked)} />
           <span>
-            Я даю согласие на обработку персональных данных в соответствии с 
-            <a href='https://www.consultant.ru/document/cons_doc_LAW_61801/' target='_blank' rel='noreferrer'>Федеральным законом № 152‑ФЗ</a>.
+            {t('agree')} 
+            <a href='https://www.consultant.ru/document/cons_doc_LAW_61801/' target='_blank' rel='noreferrer'>{t('law152')}</a>.
           </span>
         </label>
         {error && <div style={{ color: '#d33', fontSize: 14, textAlign: 'center' }}>{error}</div>}
         {message && <div style={{ color: '#0b5', fontSize: 14, textAlign: 'center' }}>{message}</div>}
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-          <Button className={style.button}>Зарегистрироваться</Button>
+          <Button className={style.button}>{t('register')}</Button>
         </div>
       </form>
     </div>

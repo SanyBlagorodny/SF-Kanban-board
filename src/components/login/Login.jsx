@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault();
     const saved = localStorage.getItem('user');
     if (!saved) {
-      setError('Сначала зарегистрируйтесь');
+      setError(t('needRegisterFirst'));
       return;
     }
     try {
@@ -25,11 +25,13 @@ const Login = () => {
       if (user.login === login && user.password === password) {
         setIsAuth(true);
         localStorage.setItem('auth', 'true');
+        localStorage.setItem('currentUser', user.login);
+        navigate('/');
       } else {
-        setError('Неверный логин или пароль');
+        setError(t('invalidCredentials'));
       }
     } catch {
-      setError('Данные пользователя повреждены. Зарегистрируйтесь заново.');
+      setError(t('userDataCorrupted'));
     }
   }
 

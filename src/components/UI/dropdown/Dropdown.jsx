@@ -1,7 +1,9 @@
 import React from 'react';
 import style from './dropDown.module.css';
+import { useT } from '../../../i18n';
 
 const Dropdown = ({ state, setState, title, setBtnCondition }) => {
+  const t = useT();
   let selectTasks;
   if (title === 'Ready') {
     selectTasks = state.find(num => num.title === 'Backlog')
@@ -35,7 +37,9 @@ const Dropdown = ({ state, setState, title, setBtnCondition }) => {
       className={style.select}
       onChange={movingTasks}
     >
-      <option value='19'>выберите задачу</option>
+      <option value=''>
+        {t('selectTask')}
+      </option>
       {selectTasks.tasks.map(item => {
         return (
           <option

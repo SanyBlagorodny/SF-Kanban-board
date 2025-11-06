@@ -3,11 +3,13 @@ import Button from '../UI/button/Button';
 import style from './insideTask.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import back from './x.svg';
+import { I18nContext } from '../../i18n';
 
 const InsideTask = ({ state, setState }) => {
   const navigate = useNavigate();
   const goBack = () => navigate(-1);
   const { id } = useParams();
+  const { t } = React.useContext(I18nContext);
   let findTask = {};
 
   state.forEach(obj => {
@@ -65,11 +67,11 @@ const InsideTask = ({ state, setState }) => {
         <textarea
           className={style.text}
           defaultValue={findTask.description}
-          placeholder='описание'
+          placeholder={t('descriptionPlaceholder')}
           onChange={getEditingDescription}
         />
         <Button onClick={goBack} className={style.back}>
-          <img src={back} alt="назад" />
+          <img src={back} alt={t('back')} />
         </Button>
       </div>
     </div>

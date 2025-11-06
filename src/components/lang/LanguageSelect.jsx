@@ -17,8 +17,8 @@ const LanguageSelect = () => {
       <div className={style.form} style={{ alignItems: 'center' }}>
         <h1>Choose language / Выберите язык</h1>
         <div style={{ display: 'flex', gap: 12 }}>
-          <button className={style.button} onClick={() => choose('ru')}>Русский</button>
           <button className={style.button} onClick={() => choose('en')}>English</button>
+          <button className={style.button} onClick={() => choose('ru')}>Русский</button>
         </div>
       </div>
     </div>

@@ -1,6 +1,9 @@
 .header {
   height: 7vh;
-  background: #0067A3;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
 }
 
 .title {
@@ -24,6 +27,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .button {
@@ -38,15 +42,18 @@
 }
 
 .menu {
-  background: #FFFFFF;
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
   position: absolute;
-  top: 37px;
-  left: -100px;
+  top: 0;
+  left: calc(100% + 12px); /* выводим меню вправо, в свободную область */
   display: flex;
   flex-direction: column;
-  width: 110px;
-  padding: 8px;
+  width: max-content;
+  min-width: 160px;
+  padding: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  z-index: 20;
 }
 
 .noMenu {
@@ -59,25 +66,27 @@
   display: block;
   height: 11px;
   width: 11px;
-  background-color: #FFF;
+  background-color: rgba(255,255,255,0.92);
   position: absolute;
-  top: -5px;
-  left: 67px;
+  top: 14px;
+  left: -5px; /* стрелка слева к кнопке */
   transform: rotate(45deg);
 }
 
 .menu>a {
-  padding: 2px;
+  padding: 6px 8px;
   cursor: pointer;
   z-index: 1;
   text-align: left;
   text-decoration: none;
+  color: #0b1020;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
 .menu>a:hover {
-  background-color: #0067A3;
-  color: #FFF;
-  border-radius: 5px;
+  background-color: rgba(0,0,0,0.08);
+  color: #0b1020;
 }
 
 @media screen and (max-width: 500px) {
@@ -87,5 +96,21 @@
 
   .container {
     justify-content: end;
+  }
+}
+
+/* Фолбэк: на узких/средних экранах выводим под кнопкой */
+@media screen and (max-width: 1280px) {
+  .menu {
+    left: auto;
+    right: 0;
+    top: 37px;
+    border-radius: 16px;
+  }
+  .menu::before {
+    top: -5px;
+    left: 67px;
+    border-radius: 2px;
+    background-color: #FFFFFF;
   }
 }
